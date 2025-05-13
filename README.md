@@ -1,4 +1,4 @@
 # blog-projetoDevWeb3
 ### Colaboradores 
-@[https://github.com/fafasssouza](Fabricio)
-@[https://github.com/FelipeLan](Felipe)
+@[Fabricio](https://github.com/fafasssouza)
+@[Felipe](https://github.com/FelipeLan)
