@@ -3,12 +3,11 @@ import bcrypt from "bcrypt";
 export default class Password {
   password;
 
-  constructor(password) { 
-    this.password = password; 
+  constructor(p) {
+    this.password = this.#hashPassword(p);
   }
-
   get getPassoword() {
-    return this.password.password;
+    return this.password;
   }
 
   static passwordIsNull(currentPassword) {
@@ -18,10 +17,11 @@ export default class Password {
       return false;
   }  
 
-  hashPassword() {
+  #hashPassword(p) {
     const saltRounds = 10;
     const salt =  bcrypt.genSaltSync(saltRounds);
 
-    return  bcrypt.hashSync(this.password, salt);
+    //Tive que passar p como uma template string pq eu acho que por ser fracamente tipado a função hashSync não sabe oque estamos passando
+    return  bcrypt.hashSync(`${p}`, salt); 
   }
  }

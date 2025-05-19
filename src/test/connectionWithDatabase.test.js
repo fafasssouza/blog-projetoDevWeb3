@@ -12,7 +12,6 @@ test("Espero conseguir criar uma conexão segura com meu sqlite", async () => {
   await context.syncModelWithTable();
 
   const password = new Password('1234567');
-  password.password = password.hashPassword();
   const username = new Nickname('faxcinante');
 
   //Criando entidades
