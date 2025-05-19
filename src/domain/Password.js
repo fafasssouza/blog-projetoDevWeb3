@@ -1,16 +1,27 @@
-export default class Password {
-  #password;
+import bcrypt from "bcrypt";
 
-  constructor(password) {
-    this.#password = password;
+export default class Password {
+  password;
+
+  constructor(password) { 
+    this.password = password; 
   }
 
-  passwordIsNull() {
-    currentPassword = this.#password;
+  get getPassoword() {
+    return this.password.password;
+  }
 
+  static passwordIsNull(currentPassword) {
     if(currentPassword.trim() === "")
       return true;
     else 
       return false;
   }  
-}
+
+  hashPassword() {
+    const saltRounds = 10;
+    const salt =  bcrypt.genSaltSync(saltRounds);
+
+    return  bcrypt.hashSync(this.password, salt);
+  }
+ }

@@ -13,10 +13,10 @@ export default class User extends Entity {
   }  
 
   get getNickname() {
-    return this.#nickname;
+    return this.#nickname.getUsername;
   }
 
   get getPassword() {
-    return this.#password;
+    return this.#password.getPassoword;
   }
 }

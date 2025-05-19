@@ -1,16 +1,15 @@
 export default class Nickname{
-  #username;
+  username;
 
   constructor(username) {
-    this.#username = username;
+    this.username = username;
   }
 
-  get getNickname() {
-    return this.#username;
+  get getUsername() {
+    return this.username.username;
   }
-
-  nameIsNull() {
-    currentName = this.#username;
+   static nameIsNull() {
+    currentName = this.username;
 
     if(currentName.trim() === "")
       return true;

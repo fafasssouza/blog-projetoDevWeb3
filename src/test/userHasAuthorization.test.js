@@ -8,6 +8,7 @@ test("Esperado que usuário tenha autoriação", () => {
   const manager = new UserRolesManager();
 
   const password = new Password('1234567');
+  password.password = password.hashPassword();
   const username = new Nickname('faxcinante');
 
   //Criando entidades
