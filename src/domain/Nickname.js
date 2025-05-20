@@ -9,7 +9,7 @@ export default class Nickname{
     return this.username.username;
   }
    static nameIsNull() {
-    currentName = this.username;
+    let currentName = this.username;
 
     if(currentName.trim() === "")
       return true;

@@ -1,19 +1,19 @@
 import { Sequelize } from "sequelize";
 import path from "path";
-import sourcePath from "../../sourcePath";
-import { User, defineUserModel } from "./models/User";
-import { Role, defineRoleModel } from "./models/Role";
-import { Auth, defineAuthModel } from "./models/Auth";
+import sourcePath from "../../sourcePath.js";
+import { User, defineUserModel } from "./models/User.js";
+import { Role, defineRoleModel } from "./models/Role.js";
+import { Auth, defineAuthModel } from "./models/Auth.js";
 
 const sqlitePath = path.join(sourcePath(), '8bitsblog_database.db');
 
 export default class DbContext {
   #sequelize;
-  userModel = User;
-  roleModel = Role;
-  authModel = Auth;
+  userModel;
+  roleModel;
+  authModel;
 
-  async authenticateSequelize() {
+  async initiateContext() {
     try {
       this.#sequelize = new Sequelize({
         dialect: 'sqlite',
@@ -21,31 +21,34 @@ export default class DbContext {
       });
 
       await this.#sequelize.authenticate();
- 
-      console.log('Connection has been established successfully.');
+      await this.#defineModels();
+      await this.#syncModelWithTable();
     }catch (error) {
       console.error('Unable to connect to the database:', error);
     }
   }
 
-  async defineModels() {
+  async #defineModels() {
     if(this.#sequelize == null)
       throw "Cannot close with there is no connection";     
     
     defineUserModel(this.#sequelize);
+    this.userModel = User;
     defineRoleModel(this.#sequelize);
+    this.roleModel = Role;
     defineAuthModel(this.#sequelize);
+    this.authModel = Auth;
 
     this.userModel.belongsToMany(this.roleModel, {through: this.authModel});
     this.roleModel.belongsToMany(this.userModel, {through: this.authModel}); 
   }
 
-  async syncModelWithTable() {
+  async #syncModelWithTable() {
     if(this.#sequelize == null)
       return;
     
-    try {
-      await this.#sequelize.sync({ force: true });
+    try { 
+      await this.#sequelize.sync({ force: false });
     } catch (err) {
       console.error(err);
     }

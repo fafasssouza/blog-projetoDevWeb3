@@ -1,4 +1,4 @@
-import Entity from "./primitives/Entity";
+import Entity from "./primitives/Entity.js";
 
 export default class Auth extends Entity {
   roleId;

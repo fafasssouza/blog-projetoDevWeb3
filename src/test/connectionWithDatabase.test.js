@@ -7,10 +7,7 @@ import User from "../domain/User";
 test("Espero conseguir criar uma conexão segura com meu sqlite", async () => { 
 
   const context = new DbContext();
-  await context.authenticateSequelize();
-  await context.defineModels();
-  await context.syncModelWithTable();
-
+  await context.initiateContext();
   const password = new Password('1234567');
   const username = new Nickname('faxcinante');
 

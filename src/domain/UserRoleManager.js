@@ -1,4 +1,4 @@
-import Auth from "./Auth";
+import Auth from "./Auth.js";
 
 //Gerencia as relações entre usuários e papeis
 export default class UserRolesManager{

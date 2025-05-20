@@ -1,6 +1,6 @@
-import Nickname from "./Nickname";
-import Password from "./Password";
-import Entity from "./primitives/Entity";
+import Nickname from "./Nickname.js";
+import Password from "./Password.js";
+import Entity from "./primitives/Entity.js";
 
 export default class User extends Entity {
   #nickname;

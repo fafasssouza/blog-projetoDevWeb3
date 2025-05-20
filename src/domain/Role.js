@@ -1,4 +1,4 @@
-import Entity from "./primitives/Entity";
+import Entity from "./primitives/Entity.js";
 
 const ROLE_ENUM = Object.freeze({
   ADMIN: 1,
