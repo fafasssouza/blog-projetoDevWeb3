@@ -7,6 +7,8 @@ import Container from "../web/utilities/Container.js";
 import registerServices from "../web/utilities/RegisterServices.js";
 import RegisterRoute from "./routes/userRegister/RegisterRoute.js";
 import LoginRoute from "./routes/userLogin/LoginRoute.js";
+import AddArticleRoute from "./routes/articleRegister/AddArticleRoute.js";
+import GetArticleRoute from "./routes/articleGet/GetArticleRoute.js";
 
 const app = express();
 dotenv.config();
@@ -27,6 +29,8 @@ app.use(express.json());
 //POST da rota de registro de usuário
 await RegisterRoute(app, container.get('userRegisterController'));
 await LoginRoute(app, container.get('userLoginController'));
+await AddArticleRoute(app, container.get('addArticleController'), container.get('userRepository'));
+await GetArticleRoute(app,container.get('getAllArticleController'), container.get('getArticleController'));
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

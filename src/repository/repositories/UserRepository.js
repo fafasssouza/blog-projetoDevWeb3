@@ -32,16 +32,17 @@ export default class UserRepository {
   }
   // Delete();
   // Update();
-  async get(entity) {
+  async getByName(name) {
     try {
       await this.#dbcontext.initiateContext();
 
       const user = await this.#dbcontext.userModel.findOne({
-        where: {username: entity.getNickname},
+        where: {username: name},
         include: Role});
 
       const res = 
-        {username: user.username, 
+        {id: user.id,
+        username: user.username, 
         password: user.password, 
         role: user.Roles[0].dataValues};
 

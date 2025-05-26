@@ -4,6 +4,7 @@ import sourcePath from "../../sourcePath.js";
 import { User, defineUserModel } from "./models/User.js";
 import { Role, defineRoleModel } from "./models/Role.js";
 import { Auth, defineAuthModel } from "./models/Auth.js";
+import { Article, defineArticleModel } from "./models/Article.js";
 
 const sqlitePath = path.join(sourcePath(), '8bitsblog_database.db');
 
@@ -12,6 +13,7 @@ export default class DbContext {
   userModel;
   roleModel;
   authModel;
+  articleModel;
 
   async initiateContext() {
     try {
@@ -38,9 +40,14 @@ export default class DbContext {
     this.roleModel = Role;
     defineAuthModel(this.#sequelize);
     this.authModel = Auth;
+    defineArticleModel(this.#sequelize);
+    this.articleModel = Article;
 
     this.userModel.belongsToMany(this.roleModel, {through: this.authModel});
     this.roleModel.belongsToMany(this.userModel, {through: this.authModel}); 
+
+    this.userModel.hasMany(this.articleModel);
+    this.articleModel.belongsTo(this.userModel);
   }
 
   async #syncModelWithTable() {
@@ -48,7 +55,7 @@ export default class DbContext {
       return;
     
     try { 
-      await this.#sequelize.sync({ force: false });
+      await this.#sequelize.sync();
     } catch (err) {
       console.error(err);
     }

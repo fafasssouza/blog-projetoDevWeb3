@@ -15,7 +15,7 @@ export default class UserLoginController {
 
         const userEntity = userMapper.mapModelToEntity(username, password);
 
-        const user = await this.#userRepository.get(userEntity);
+        const user = await this.#userRepository.getByName(userEntity.getNickname);
 
         return user;
     }

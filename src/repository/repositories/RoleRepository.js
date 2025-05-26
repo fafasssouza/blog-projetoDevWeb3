@@ -13,9 +13,7 @@ export default class RoleRepository {
           console.log(thereis);
           return -1;
         }
-
-        console.log(entity.getRoleNumber);
-  
+ 
         const newRole = this.#dbcontext.roleModel.build({
           id: entity.getId,
           role_Number: entity.getRoleNumber,
