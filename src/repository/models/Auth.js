@@ -7,5 +7,9 @@ export function defineAuthModel(sequelize) {
     { 
     sequelize,
     modelName: 'Auth',
+    /*
+      Tabela intermediária entre User e Role
+      Sequelize automaticamente gera as duas foreign keys roleId e useId
+     */
   });
 }

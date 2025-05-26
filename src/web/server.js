@@ -5,7 +5,8 @@ import cors from "cors";
 
 import Container from "../web/utilities/Container.js";
 import registerServices from "../web/utilities/RegisterServices.js";
-import UserModel from "./routes/userRegister/UserModel.js"
+import RegisterRoute from "./routes/userRegister/RegisterRoute.js";
+import LoginRoute from "./routes/userLogin/LoginRoute.js";
 
 const app = express();
 dotenv.config();
@@ -23,27 +24,10 @@ app.use(cors({
 
 app.use(express.json());
 
-app.post("/user", async (req, res) => {
-  try {
-    const {username, password} = req.body;
-
-    const model = new UserModel(username, password)
-    const controller =  container.get('userController');
-    const result = await controller.handleRequest(model); 
-
-    if(result < 0) {
-      res.status(403).send("Usuário já existe");
-      return;
-    } 
-      
-    res.status(201).send("Usuário criado com sucesso");
-  }catch(e) {
-    console.error(e);
-    res.status(500).send("Problema no servidor");
-  }
-  
-});
+//POST da rota de registro de usuário
+await RegisterRoute(app, container.get('userRegisterController'));
+await LoginRoute(app, container.get('userLoginController'));
 
 app.listen(PORT, () => {
-  console.log(`Server is running on localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

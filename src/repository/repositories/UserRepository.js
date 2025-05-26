@@ -1,10 +1,12 @@
+import { Role } from "../../repository/models/Role.js";
+ 
 export default class UserRepository {
   #dbcontext;
   constructor(dbcontext) {
     this.#dbcontext = dbcontext;
   }
 
-  async add(entity) {
+  async add(entity, newRole) {
     try {
       await this.#dbcontext.initiateContext();
 
@@ -20,15 +22,33 @@ export default class UserRepository {
         password: entity.getPassword,
       });
 
-      await newUser.save(); 
+      await newUser.save();
+      
+      await newUser.addRole(newRole, { through: { selfGranted: false } }); 
       return 0;
     }catch (error) {
       throw new Error("Something happend in UserRepository: " + error);
-    }finally {
-     }
+    }
   }
   // Delete();
   // Update();
-  // Get();
+  async get(entity) {
+    try {
+      await this.#dbcontext.initiateContext();
+
+      const user = await this.#dbcontext.userModel.findOne({
+        where: {username: entity.getNickname},
+        include: Role});
+
+      const res = 
+        {username: user.username, 
+        password: user.password, 
+        role: user.Roles[0].dataValues};
+
+      return res;
+    }catch (error) {
+      throw new Error("Something happend in UserRepository: " + error);
+    }
+  }
   // GetAll();
 }
