@@ -1,9 +1,11 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+  import GenericInput from "@/components/GenericInput.vue";
+  import GenericButton from "@/components/GenericButton.vue";
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <GenericInput type="text" placeholder="Informe seu login" width="100px" height="200px" />
+    <GenericButton label="text" />
   </main>
 </template>
