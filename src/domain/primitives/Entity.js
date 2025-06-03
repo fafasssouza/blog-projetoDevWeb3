@@ -9,4 +9,8 @@ export default class Entity {
   get getId() {
     return this.#id;
   }
+
+  set setId(id) {
+    this.#id  = id;
+  }
 }

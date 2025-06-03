@@ -1,5 +1,6 @@
 import UserMapper from "./UserMapper.js";
 import RoleMapper from "./RoleMapper.js";
+import UserErrorCode from "../../../domain/UserErrorCode.js";
 
 export default class UserController {
   #userRepository;
@@ -20,17 +21,9 @@ export default class UserController {
     const [roleRes, newRole] = await this.#roleRepository.add(roleEntity);
 
     const userRes = await this.#userRepository.add(userEntity, newRole);
+    if(userRes === UserErrorCode.THERE_IS_USER)
+      return null;
     
-
-    
-    //Depende do resultado da soma de userRes + roleRes
-    //Cada uma retorna um valor (ou -1 ou 0) 0 significa q foi sucesso -1 significa proibido 
-    let result = userRes + roleRes;
-    switch(result) {
-      case -2, -1:
-        return -1;
-      default:
-        return 0;
-    }
+    return userRes;
   } 
 }

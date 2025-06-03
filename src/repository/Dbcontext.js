@@ -42,7 +42,7 @@ export default class DbContext {
     this.authModel = Auth;
     defineArticleModel(this.#sequelize);
     this.articleModel = Article;
-
+    
     this.userModel.belongsToMany(this.roleModel, {through: this.authModel});
     this.roleModel.belongsToMany(this.userModel, {through: this.authModel}); 
 

@@ -1,3 +1,4 @@
+import UserErrorCode from "../../domain/UserErrorCode.js";
 import { Role } from "../../repository/models/Role.js";
  
 export default class UserRepository {
@@ -11,10 +12,8 @@ export default class UserRepository {
       await this.#dbcontext.initiateContext();
 
       const thereis = await this.#dbcontext.userModel.findOne({where: {username: entity.getNickname}});
-      if(thereis != null) {
-        console.log(thereis);
-        return -1;
-      }
+      if(thereis) 
+        return UserErrorCode.THERE_IS_USER;
 
       const newUser = this.#dbcontext.userModel.build({
         id: entity.getId,
@@ -25,7 +24,7 @@ export default class UserRepository {
       await newUser.save();
       
       await newUser.addRole(newRole, { through: { selfGranted: false } }); 
-      return 0;
+      return true;
     }catch (error) {
       throw new Error("Something happend in UserRepository: " + error);
     }
@@ -39,6 +38,9 @@ export default class UserRepository {
       const user = await this.#dbcontext.userModel.findOne({
         where: {username: name},
         include: Role});
+
+      if(!user)
+        return UserErrorCode.THERE_IS_NO_USER;
 
       const res = 
         {id: user.id,

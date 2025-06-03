@@ -10,7 +10,7 @@ import UserModel from "./UserModel.js";
             role != null ? role : "READ");
         const result = await userController.handleRequest(model); 
     
-        if(result < 0) {
+        if(!result) {
           res.status(403).send("Usuário já existe");
           return;
         } 

@@ -1,7 +1,7 @@
 import passwordValidation from "./passwordValidation.js";
 import UserModel from "../userRegister/UserModel.js";
 
-export default async function LoginRoute(app, userController) {
+export default async function LoginRoute(app, userController, jwt) {
    app.post("/login-user", async (req, res) => {
     try {
         //Ignore role ele não é utilizado aq
@@ -11,8 +11,8 @@ export default async function LoginRoute(app, userController) {
             password,
             role != null ? role : "READ");
         const result = await userController.handleRequest(model); 
-    
-        if(!result) {
+        
+        if(result == null) {
           res.status(403).send("Usuário não existe");
           return;
         } 
@@ -20,8 +20,8 @@ export default async function LoginRoute(app, userController) {
         const validation =  passwordValidation(password, result.password);
 
         if(validation) {
-            res.status(200).send(`Bem vindo ${username}`);
-            return;
+            const payload = jwt.generatePayload({username: username, password: password});
+            res.send(payload);
         } else {
             res.status(403).send("Senha incorreta");
         }

@@ -2,7 +2,6 @@ import ArticleMapper from "./ArticleMapper.js";
 
 export default class AddArticleController {
   #articleRepository;
-
   constructor(articleRepository) {
     this.#articleRepository = articleRepository;
   }
@@ -12,7 +11,7 @@ export default class AddArticleController {
       const mapper = new ArticleMapper();  
       const entity = mapper.mapModelToEntity(article);
 
-      await this.#articleRepository.add(entity, user); 
+      return await this.#articleRepository.add(entity, user); 
     } catch(error){
       throw new Error('Something wrong with AddArticleController: ' + error);
     }
