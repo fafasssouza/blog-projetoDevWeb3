@@ -1,13 +1,16 @@
 <script setup>
-  import GenericButton from "./GenericButton.vue"
+  import { useRouter } from "vue-router";
+  import GenericButton from "./GenericButton.vue";
 
-  defineProps({
+  const router = useRouter();
+
+  const props = defineProps({
     title: String,
     content: String
   });  
 
   const openArticle = () => {
-    
+    router.push(`/post/${props.title}`);
   }
 </script>
 
@@ -16,14 +19,14 @@
     <h3 class="title">{{ title }}</h3>
     <p class="content"> {{ content }} </p>
 
-    <GenericButton label="Ver" class="ver-btn" :_onclick="openArticle" /> 
+    <GenericButton label="Ver" class="btn" :_onclick="openArticle" /> 
   </section>
 </template>
 
 <style scoped>
   .articleContainer {
-    width: 30vw;
-    height: 25vh;
+    width: 300px;
+    height: 150px;
     display: block; /* so the whole card is clickable if used as <a> */
     max-width: 400px;
     padding: 20px;
@@ -52,7 +55,7 @@
     color: #666;
   }
 
-  .ver-btn {
+  .btn {
     margin: 25px 0;
   }
 </style>
